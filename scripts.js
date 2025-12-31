@@ -44,7 +44,7 @@ async function sendMessage() {
   try {
     const idToken = await user.getIdToken();
     
-    const response = await fetch('http://localhost:5000/api/prompt-chat', {
+    const response = await fetch('https://prompto-backend-z85i.onrender.com/api/prompt-chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ document.querySelector(".newChat").addEventListener("click", async () => {
     try {
       const idToken = await user.getIdToken();
       
-      await fetch('http://localhost:5000/api/reset-conversation', {
+      await fetch('https://prompto-backend-z85i.onrender.com/api/reset-conversation', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${idToken}`

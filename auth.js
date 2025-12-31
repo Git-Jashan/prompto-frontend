@@ -116,7 +116,7 @@ if (logoutBtn) {
 }
 
 function sendTokenToBackend(idToken) {
-    fetch('http://localhost:5000/api/get-secret-key', {
+    fetch('https://prompto-backend-z85i.onrender.com/api/get-secret-key', {
         method: 'GET',
         headers: { 'Authorization': 'Bearer ' + idToken }
     })
