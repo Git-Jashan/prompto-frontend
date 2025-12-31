@@ -310,7 +310,7 @@ if (window.visualViewport) {
 
     typer.style.transform =
       keyboardHeight > 0
-        ? `translateY(-${keyboardHeight-1}px)`
+        ? `translateY(-${keyboardHeight+1}px)`
         : 'translateY(0)';
   });
 }
