@@ -1,0 +1,847 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+body{
+    background-color:#F5F5F7;
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    flex-direction: column;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.top{
+    display: flex;
+    justify-content: space-between;
+    padding: 11px 9px;
+    background-color: #FDFDFD;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.topLeft, .topRight{
+  display: flex; 
+  align-items: center;
+  gap: 16px;
+}
+
+.topLeft{
+    font-size: xx-large;
+    font-weight: bold;
+    gap: 6px;
+}
+.navigation a{
+    color: black;
+    text-decoration: none;
+}
+.navigation a:hover{
+    text-decoration: underline;
+}
+.topRight{
+    font-size: larger;
+    font-weight: 525;
+    padding-right: 12px;
+}
+
+#tagline{
+    width: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#tagline.hidden{
+    display: none;
+}
+
+.chatContainer{
+    display: none;
+}
+
+.chatContainer.active{
+    flex: 1;
+    width: 100%;
+    padding: 20px;
+    font-size: larger;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+    margin-bottom: 80px;
+}
+
+.userMessage,.aiMessage,.thinking{
+    display: flex;
+    max-width: 80%;
+    padding: 6px 10px;
+    background-color: #ffffff;
+    height: fit-content;
+    border-radius: 15px;
+    white-space: pre-wrap; 
+    word-wrap: break-word;
+}
+
+.userMessage{
+    margin-left: auto;
+}
+
+a{
+    color: black;
+    text-decoration: none;
+}
+
+.typer{
+    margin: 18px;
+    margin-bottom: 0px;
+    width: 96%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px;
+    gap: 2px;
+    background-color: #ffffff;
+    border: 2px solid #F5F5F7;
+    border-radius: 60px;
+    box-shadow: 0 0 6px rgb(214, 214, 214);
+    flex-shrink: 0;
+}
+
+.addFiles, .userText, .sendBtn{
+    height: 45px;
+    background-color: #FDFDFD;
+    border: 0;
+    font-size: larger;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sendBtn, .addFiles{
+    background-color: black;
+    color:#F5F5F7;
+    height: 40px;
+    width: 40px;
+    font-size: xx-large;
+    border-radius: 95%;
+}
+
+.send-icon {
+  width: 20px;
+  height: 20px;
+  fill:white;
+  display: flex;
+}
+
+.userText{
+    width: 93%;
+    height: 42px;
+    padding: 10px;
+    outline: none;
+    resize: none;
+}
+
+.actionBar{
+ display: none;
+}
+
+.actionBar.active{
+    margin: 18px;
+    width: 96%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    gap: 123px;
+    background-color: #ffffff;
+    border: 2px solid #F5F5F7;
+    border-radius: 60px;
+    box-shadow: 0 0 6px rgb(214, 214, 214);
+    flex-shrink: 0;
+}
+
+.copyBtn,.saveBtn,.newChat{
+    background-color: black;
+    padding: 16px;
+    border-radius: 55px;
+    font-size: larger;
+    color: white;
+    font-weight: 700;
+}
+
+.typer.hidden{
+    display: none;
+}
+
+button:disabled{ 
+    opacity: 0.5; 
+    cursor: not-allowed;
+}
+
+#loginBtn{
+    background-color: black;
+    padding: 8px;
+    border-radius: 55px;
+    font-size: large;
+    color: white;
+    font-weight: 200; 
+}
+
+.modal {
+    display: none;
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    display: flex;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 550px;
+    max-height: 80vh;
+    border-radius: 10px;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    overflow-y: auto;
+}
+
+.close-btn {
+    color: #aaa;
+    margin-left: auto;
+    margin-bottom: auto;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover { 
+    color: black; 
+}
+
+dialog.save-dialog {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    width: 400px;
+    margin: auto;
+}
+
+.saveMsgBox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    gap: 20px;
+    height: 325px;
+    margin: 18px;
+}
+
+#cancelBtn,#confirmBtn,#emailLoginBtn,#googleBtn{
+    padding: 16px;
+    margin: 0px 16px;
+    font-size: larger;
+    font-weight: 500;
+    border-radius: 25px;
+    border: 0;
+}
+
+.saveBtnInput{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#promptTag,#promptName,#email,#password{
+    padding: 8px;
+    font-size: larger;
+}
+
+#cancelBtn{
+    background-color: rgb(246, 57, 57);
+    color: white;
+}
+
+#confirmBtn{
+    background-color: black;
+    color: white;
+}
+
+#emailLoginBtn{
+    background-color: black;
+    color: white;
+    height: 52px;
+}
+
+#googleBtn{
+    background-color: #00b3ff;
+    color: white;
+    height: 7vh;
+    padding: 16px 24px;
+    margin-bottom: 32px;
+}
+
+.user-profile {
+    position: relative; 
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ddd;
+    transition: transform 0.2s;
+}
+
+.avatar:hover {
+    transform: scale(1.05);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 55px;  
+    right: 0;  
+    background: white;
+    width: 275px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15); 
+    border: 1px solid #eee;
+    z-index: 1000;
+}
+
+.dropdown-menu.active {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.email-text {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: bold;
+    word-break: break-all;
+}
+
+.logout-item {
+    background: #ffebee;
+    color: #d32f2f;
+    border: none;
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.logout-item:hover {
+    background: #ffcdd2;
+}
+
+/* LIBRARY */
+.dashboard-container {
+    margin-top: 12px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    overflow-y: auto;
+}
+
+.prompt-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.prompt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.prompt-tag {
+    background: #e0e7ff;
+    color: #4338ca;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.prompt-text {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 4px;
+    font-family: monospace;
+    white-space: pre-wrap;
+    max-height: 100px;
+    overflow-y: auto;
+}
+
+.footer {
+    padding-top: 6px;
+    padding-bottom:10px;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.footer-links a {
+    color: #666;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+.footer-links span {
+    color: #ccc;
+}
+
+.footer-copy {
+    color: #999;
+    font-size: 12px;
+    text-align: center;
+}
+
+/* Terms/Privacy Modal */
+.terms-modal {
+    width: 700px;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 30px;
+}
+
+.terms-modal h2 {
+    margin-bottom: 20px;
+    color: #000;
+}
+
+.terms-text {
+    text-align: left;
+    line-height: 1.6;
+}
+
+.terms-text h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 18px;
+}
+
+.terms-text p {
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.terms-text ul {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.terms-text li {
+    margin-bottom: 8px;
+    color: #666;
+}
+
+/*RESPONSIVE DESIGN - TABLET*/
+@media (max-width: 768px) {
+    .topLeft {
+        font-size: x-large;
+        gap: 4px;
+    }
+    
+    .topRight {
+        font-size: large;
+        padding-right: 8px;
+        gap: 10px;
+    }
+    
+    .chatContainer.active {
+        padding: 15px 10px;
+        font-size: medium;
+        margin-bottom: 100px;
+    }
+    
+    .userMessage, .aiMessage, .thinking {
+        max-width: 85%;
+        padding: 8px 12px;
+        font-size: 15px;
+        line-height: 1.4;
+    }
+    
+    .typer {
+        margin: 12px;
+        width: 95%;
+        padding: 12px;
+        gap: 8px;
+    }
+    
+    .userText {
+        font-size: large;
+        width: 85%;
+    }
+    
+    .actionBar.active {
+        margin: 12px;
+        width: 95%;
+        padding: 15px;
+        gap: 40px;
+        flex-wrap: wrap;
+    }
+    
+    .copyBtn, .saveBtn, .newChat {
+        padding: 12px 20px;
+        font-size: large;
+    }
+    
+    .modal-content {
+        width: 90%;
+        max-height: 80vh;
+        padding: 20px;
+    }
+    
+    dialog.save-dialog {
+        width: 85%;
+    }
+}
+
+/* RESPONSIVE DESIGN - MOBILE */
+@media (max-width: 480px) {
+    body {
+        height: 100dvh;
+    }
+    
+    .top {
+        padding: 8px 6px;
+    }
+    
+    .topLeft {
+        font-size: large;
+        gap: 3px;
+    }
+    
+    .topLeft span:first-child {
+        font-size: 28px;
+    }
+    
+    .topRight {
+        font-size: medium;
+        padding-right: 4px;
+        gap: 8px;
+    }
+    
+    #loginBtn {
+        padding: 6px 12px;
+        font-size: medium;
+    }
+    
+    .avatar {
+        width: 36px;
+        height: 36px;
+        border: 2px solid #ddd;
+    }
+    
+    .dropdown-menu {
+        width: 200px;
+        top: 48px;
+        right: -10px;
+        padding: 12px;
+    }
+    
+    #tagline {
+        padding: 20px;
+        text-align: center;
+        font-size: large;
+    }
+    
+    .chatContainer.active {
+        padding: 10px 8px;
+        font-size: 14px;
+        gap: 10px;
+        margin-bottom: 95px; 
+    }
+    
+    .userMessage, .aiMessage, .thinking {
+        max-width: 90%;
+        padding: 10px 14px;
+        font-size: 14px;
+        line-height: 1.5;
+        border-radius: 12px;
+    }
+    
+    .typer {
+        position: fixed;
+        bottom: 30px;
+        left: 0;
+        right: 0;
+        margin: 0;
+        width: 100%;
+        padding: 10px 12px;
+        gap: 6px;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+    }
+    
+    .addFiles, .sendBtn {
+        height: 38px;
+        width: 38px;
+        font-size: x-large;
+        flex-shrink: 0;
+    }
+    
+    .send-icon {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .userText {
+        width: calc(100% - 90px);
+        height: 38px;
+        font-size: 15px;
+        padding: 8px;
+    }
+    
+    .actionBar.active {
+        position: fixed;
+        bottom: 32px;
+        left: 0;
+        right: 0;
+        margin: 0;
+        width: 100%;
+        padding: 12px;
+        gap: 12px;
+        border-radius: 0;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        flex-wrap: nowrap;
+        justify-content: space-around;
+        z-index: 100;
+    }
+    
+    .copyBtn, .saveBtn, .newChat {
+        padding: 10px 16px;
+        font-size: 14px;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        border-radius: 25px;
+    }
+
+    .modal {
+        padding: 10px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        max-height: 85vh;
+        padding: 15px;
+        gap: 18px;
+    }
+    
+    .close-btn {
+        font-size: 28px;
+    }
+    
+    #emailLoginBtn, #googleBtn {
+        padding: 12px 18px;
+        font-size: medium;
+        height: auto;
+    }
+    
+    #googleBtn {
+        height: auto;
+        padding: 12px 18px;
+    }
+    
+    #email, #password, #promptName, #promptTag {
+        padding: 10px;
+        font-size: 16px;
+        width: 100%;
+    }
+    
+    #promptTag, #password {
+        margin-bottom: 2px;
+    }
+    
+    dialog.save-dialog {
+        width: 92%;
+        max-width: 350px;
+        padding: 10px;
+    }
+    
+    .saveMsgBox {
+        height: auto;
+        margin: 12px;
+        gap: 15px;
+    }
+    
+    .saveBtnInput {
+        width: 100%;
+        gap: 15px;
+    }
+    
+    #cancelBtn, #confirmBtn {
+        padding: 12px 16px;
+        font-size: medium;
+        margin: 0 8px;
+    }
+   
+    .dashboard-container {
+        margin-top: 8px;
+        padding: 0 10px 100px 10px;
+    }
+    
+    .prompt-card {
+        padding: 15px;
+        margin-bottom: 12px;
+    }
+    
+    .prompt-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .prompt-tag {
+        font-size: 0.75rem;
+    }
+    
+    .prompt-text {
+        font-size: 13px;
+        max-height: 80px;
+    }
+    
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding-bottom: 8px;
+        padding-top: 0px;
+        z-index: 99;
+    }
+    
+    .footer-content {
+        gap: 4px;
+    }
+    
+    .footer-links {
+        font-size: 12px;
+        gap: 8px;
+    }
+    
+    .footer-copy {
+        font-size: 10px;
+    }
+    
+    .terms-modal {
+        width: 95%;
+        padding: 20px;
+        max-height: 85vh;
+    }
+    
+    .terms-text h3 {
+        font-size: 16px;
+    }
+    
+    .terms-text p, .terms-text li {
+        font-size: 14px;
+    }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+    .topLeft {
+        font-size: medium;
+    }
+    
+    .topLeft span:first-child {
+        font-size: 24px;
+    }
+    
+    .topRight {
+        font-size: small;
+        gap: 6px;
+    }
+    
+    .actionBar.active {
+        gap: 8px;
+        padding: 10px;
+    }
+    
+    .copyBtn, .saveBtn, .newChat {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+    
+    .userMessage, .aiMessage, .thinking {
+        font-size: 13px;
+        padding: 8px 12px;
+    }
+}
+
+/* Landscape mode */
+@media (max-height: 500px) and (orientation: landscape) {
+    .chatContainer.active {
+        margin-bottom: 80px;
+    }
+    
+    .modal-content {
+        max-height: 90vh;
+    }
+    
+    .typer {
+        bottom: 35px;
+    }
+    
+    .actionBar.active {
+        bottom: 35px;
+    }
+    
+    .footer {
+        padding: 5px;
+    }
+}
