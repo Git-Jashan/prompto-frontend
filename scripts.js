@@ -306,11 +306,11 @@ if (window.visualViewport) {
       window.innerHeight - vv.height
     );
 
-    const OFFSET = 0;
+  
 
     typer.style.transform =
       keyboardHeight > 0
-        ? `translateY(-${keyboardHeight - OFFSET}px)`
+        ? `translateY(-${keyboardHeight-1}px)`
         : 'translateY(0)';
   });
 }
