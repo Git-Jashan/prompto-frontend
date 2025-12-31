@@ -297,88 +297,21 @@ window.addEventListener('click', (e) => {
   }
 });
 
+if (window.visualViewport) {
+  const vv = window.visualViewport;
 
-(function () {
-  const inputBar = document.querySelector('.typer');
-  const chat = document.querySelector('.chatContainer.active');
-  const input = document.querySelector('.userText, .typer input, .typer textarea');
+  vv.addEventListener('resize', () => {
+    const keyboardHeight = Math.max(
+      0,
+      window.innerHeight - vv.height
+    );
 
-  if (!inputBar || !chat) return;
+    
+    const OFFSET = 10;
 
-  // Utility: set chat bottom padding so last message never peeks
-  function setChatPadding(px) {
-    chat.style.paddingBottom = px + 'px';
-  }
-
-  // Initialize: ensure chat has baseline padding equal to typer height
-  function initBaselinePadding() {
-    const h = inputBar.offsetHeight || parseInt(getComputedStyle(inputBar).getPropertyValue('--typer-height')) || 56;
-    setChatPadding(h + 8); // 8px breathing room
-  }
-  initBaselinePadding();
-
-  // Main handler using visualViewport
-  function onViewportResize() {
-    const vv = window.visualViewport;
-    const keyboardHeight = vv ? Math.max(0, window.innerHeight - vv.height) : Math.max(0, window.innerHeight - document.documentElement.clientHeight);
-
-    if (keyboardHeight > 0) {
-      // Keyboard is open
-      document.body.classList.add('keyboard-open');
-
-      // Move inputBar UP exactly keyboardHeight (so it visually sits above keyboard)
-      // Negative translate moves the bar upward.
-      inputBar.style.transform = `translateY(-${keyboardHeight}px)`;
-      inputBar.style.willChange = 'transform';
-
-      // Update chat padding so messages are above the inputBar (use exact inputBar height)
-      const h = inputBar.offsetHeight || 56;
-      setChatPadding(h + 8);
-
-      // (Optional) auto-scroll to bottom so latest message is visible
-      // Uncomment if you want auto-scroll:
-      // try { chat.scrollTop = chat.scrollHeight; } catch (e) {}
-    } else {
-      // Keyboard closed
-      document.body.classList.remove('keyboard-open');
-
-      // Reset transform to default so inputBar sits at bottom
-      inputBar.style.transform = '';
-      inputBar.style.willChange = '';
-
-      // Restore baseline padding
-      initBaselinePadding();
-    }
-  }
-
-  // Attach listeners
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', onViewportResize);
-    // Some devices do not fire resize consistently on keyboard close — also watch window resize
-    window.addEventListener('resize', onViewportResize);
-  } else {
-    // Fallback: listen for focus/blur on the input only (less robust)
-    input && input.addEventListener('focus', () => {
-      document.body.classList.add('keyboard-open');
-      // make a guess — but real-device testing recommended
-      inputBar.style.transform = 'translateY(-260px)'; 
-      setChatPadding(inputBar.offsetHeight + 8);
-    });
-    input && input.addEventListener('blur', () => {
-      setTimeout(() => {
-        document.body.classList.remove('keyboard-open');
-        inputBar.style.transform = '';
-        initBaselinePadding();
-      }, 60);
-    });
-  }
-
-  // Safety: always reset when input blurs (handles send closing keyboard without resize event)
-  input && input.addEventListener('blur', () => {
-    setTimeout(onViewportResize, 80);
+    typer.style.transform =
+      keyboardHeight > 0
+        ? `translateY(-${keyboardHeight - OFFSET}px)`
+        : 'translateY(0)';
   });
-
-  // Also run on load in case keyboard already open (rare)
-  window.addEventListener('load', onViewportResize);
-})();
-
+}
