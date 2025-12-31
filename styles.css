@@ -517,7 +517,6 @@ dialog.save-dialog {
     .typer {
         position: sticky;
         bottom:0;
-        margin: 12px;
         width: 95%;
         padding: 12px;
         gap: 8px;
