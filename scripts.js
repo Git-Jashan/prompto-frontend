@@ -297,29 +297,65 @@ window.addEventListener('click', (e) => {
   }
 });
 
-
-function resetInputBar() {
-  typer.style.transform = 'translateY(0)';
-}
-
-if (window.visualViewport) {
+// keyboard-handler.js
+(function () {
   const vv = window.visualViewport;
+  const inputBar = document.querySelector('.typer');
+  const footer = document.querySelector('.footer');
+  const chat = document.querySelector('.chatContainer.active');
+  const input = document.querySelector('.userText');
 
-  vv.addEventListener('resize', () => {
-    const keyboardHeight = Math.max(
-      0,
-      window.innerHeight - vv.height
-    );
+  if (!inputBar || !chat) return;
 
-    const OFFSET = 4;
+  const GAP = 4; // pixels; 0–6 recommended
 
-    typer.style.transform =
-      keyboardHeight > 0
-        ? `translateY(-${keyboardHeight - OFFSET}px)`
-        : 'translateY(0)';
-  });
-}
+  function onKeyboardResize() {
+    const keyboardHeight = Math.max(0, window.innerHeight - (vv ? vv.height : window.innerHeight));
+    if (keyboardHeight > 0) {
+      // keyboard open
+      document.body.classList.add('keyboard-open');
 
-userText.addEventListener('blur', () => {
-  setTimeout(resetInputBar, 50);
-});
+      // move inputBar up; ensure we move almost full keyboard height leaving a tiny gap
+      const translate = Math.max(0, keyboardHeight - GAP);
+      inputBar.style.transition = 'transform 120ms linear';
+      inputBar.style.transform = `translateY(-${translate}px)`;
+
+      // move footer down so it won't sit between input and keyboard
+      if (footer) footer.style.transform = `translateY(${inputBar.offsetHeight}px)`;
+
+      // add bottom padding to messages so last message doesn't peek up into gap
+      chat.style.paddingBottom = `${inputBar.offsetHeight + 6}px`;
+
+      // optional: auto-scroll messages to bottom
+      // chat.scrollTop = chat.scrollHeight;
+    } else {
+      // keyboard closed
+      document.body.classList.remove('keyboard-open');
+      inputBar.style.transform = '';
+      inputBar.style.transition = '';
+
+      if (footer) footer.style.transform = '';
+      chat.style.paddingBottom = ''; // reset to CSS default
+    }
+  }
+
+  if (vv) {
+    vv.addEventListener('resize', onKeyboardResize);
+    // some Android devices don't fire resize on keyboard close — also listen to blur
+    window.addEventListener('resize', onKeyboardResize);
+  } else {
+    // Fallback: watch focus/blur on input only (less reliable)
+    input.addEventListener('focus', () => {
+      // guess a height if you must, or advise real-device testing
+      inputBar.style.transform = 'translateY(-260px)';
+    });
+    input.addEventListener('blur', () => {
+      inputBar.style.transform = '';
+    });
+  }
+
+  // Ensure blur resets if send closes keyboard without firing resize
+  if (input) {
+    input.addEventListener('blur', () => setTimeout(onKeyboardResize, 60));
+  }
+})();
