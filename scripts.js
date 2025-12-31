@@ -306,7 +306,7 @@ if (window.visualViewport) {
       window.innerHeight - vv.height
     );
 
-    const OFFSET = 2;
+    const OFFSET = -8;
 
     typer.style.transform =
       keyboardHeight > 0
