@@ -599,10 +599,11 @@ dialog.save-dialog {
         padding: 10px 8px;
         font-size: 14px;
         gap: 10px;
-        padding-bottom: 110px;
+        padding-bottom: 20px;
         margin-bottom: 0;
+        flex: 1;
+        overflow-y: auto;
     }
-    
     .userMessage, .aiMessage, .thinking {
         max-width: 90%;
         padding: 10px 14px;
@@ -610,21 +611,17 @@ dialog.save-dialog {
         line-height: 1.5;
         border-radius: 12px;
     }
-    
     .typer {
-        position: fixed;
-        bottom: 40px;
-        left: 0;
-        right: 0;
-        margin: 0;
+        position: relative; 
         width: 100%;
         padding: 10px 12px;
         gap: 6px;
         box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
         z-index: 100;
         background-color: #ffffff;
+        flex-shrink: 0;
+        margin-bottom: 10px;
     }
-    
     .addFiles, .sendBtn {
         height: 38px;
         width: 38px;
@@ -645,12 +642,8 @@ dialog.save-dialog {
         scroll-margin-bottom: 20px;
     }
     
-    .actionBar.active {
-        position: fixed;
-        bottom: 40px;
-        left: 0;
-        right: 0;
-        margin: 0;
+   .actionBar.active {
+        position: relative;
         width: 100%;
         padding: 12px;
         gap: 12px;
@@ -660,6 +653,8 @@ dialog.save-dialog {
         justify-content: space-around;
         z-index: 100;
         background-color: #ffffff;
+        flex-shrink: 0;
+        margin-bottom: 10px;
     }
     
     .copyBtn, .saveBtn, .newChat {
@@ -670,7 +665,9 @@ dialog.save-dialog {
         white-space: nowrap;
         border-radius: 25px;
     }
-
+    .footer {
+        display: none; 
+    }
     .modal {
         padding: 10px;
     }
