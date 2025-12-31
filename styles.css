@@ -486,6 +486,10 @@ dialog.save-dialog {
 
 /*RESPONSIVE DESIGN - TABLET*/
 @media (max-width: 768px) {
+    body{
+        height: 100dvh;
+        overflow: hidden;
+    }
     .topLeft {
         font-size: x-large;
         gap: 4px;
@@ -511,7 +515,8 @@ dialog.save-dialog {
     }
     
     .typer {
-        position: relative;
+        position: sticky;
+        bottom:0;
         margin: 12px;
         width: 95%;
         padding: 12px;
@@ -551,6 +556,7 @@ dialog.save-dialog {
 @media (max-width: 480px) {
     body {
         height: 100dvh;
+        overflow: hidden;
     }
     
     .top {
@@ -791,6 +797,10 @@ dialog.save-dialog {
 
 /* Very small phones */
 @media (max-width: 360px) {
+    body{
+        height: 100dvh;
+        overflow: hidden;
+    }
     .topLeft {
         font-size: medium;
     }

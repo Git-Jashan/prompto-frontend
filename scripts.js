@@ -296,3 +296,14 @@ window.addEventListener('click', (e) => {
     privacyModal.style.display = 'none';
   }
 });
+
+
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', () => {
+    const keyboardHeight =
+      window.innerHeight - window.visualViewport.height;
+
+    typer.style.transform =
+      `translateY(-${keyboardHeight}px)`;
+  });
+}
