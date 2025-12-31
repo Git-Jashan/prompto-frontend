@@ -513,15 +513,15 @@ dialog.save-dialog {
         font-size: 15px;
         line-height: 1.4;
     }
-    
-    .typer {
-        position: sticky;
-        bottom:0;
-        width: 95%;
-        padding: 12px;
-        gap: 8px;
+     .typer {
+        position: relative; 
+        width: 100%; 
+        gap: 6px;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        background-color: #ffffff;
+        flex-shrink: 0;
     }
-    
     .userText {
         font-size: large;
         width: 85%;
