@@ -524,7 +524,7 @@ dialog.save-dialog {
     }
     .userText {
         font-size: large;
-        width: 85%;
+        width: 100%;
     }
     
     .actionBar.active {
@@ -642,7 +642,7 @@ dialog.save-dialog {
     }
     
     .userText {
-        width: calc(100% - 90px);
+        width: calc(100% - 20px);
         height: 38px;
         font-size: 15px;
         padding: 8px;
