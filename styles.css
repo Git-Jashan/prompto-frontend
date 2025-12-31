@@ -627,6 +627,9 @@ dialog.save-dialog {
         flex-shrink: 0;
         margin-bottom: 8px;
     }
+    .footer{
+        display: none;
+    }
     .addFiles, .sendBtn {
         height: 38px;
         width: 38px;
