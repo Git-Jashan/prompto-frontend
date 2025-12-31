@@ -298,12 +298,28 @@ window.addEventListener('click', (e) => {
 });
 
 
+function resetInputBar() {
+  typer.style.transform = 'translateY(0)';
+}
+
 if (window.visualViewport) {
-  window.visualViewport.addEventListener('resize', () => {
-    const keyboardHeight =
-      window.innerHeight - window.visualViewport.height;
+  const vv = window.visualViewport;
+
+  vv.addEventListener('resize', () => {
+    const keyboardHeight = Math.max(
+      0,
+      window.innerHeight - vv.height
+    );
+
+    const OFFSET = 12;
 
     typer.style.transform =
-      `translateY(-${keyboardHeight}px)`;
+      keyboardHeight > 0
+        ? `translateY(-${keyboardHeight - OFFSET}px)`
+        : 'translateY(0)';
   });
 }
+
+userText.addEventListener('blur', () => {
+  setTimeout(resetInputBar, 50);
+});
