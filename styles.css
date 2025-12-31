@@ -625,7 +625,7 @@ dialog.save-dialog {
         z-index: 100;
         background-color: #ffffff;
         flex-shrink: 0;
-        margin-bottom: 6px;
+        margin-bottom: 8px;
     }
     .addFiles, .sendBtn {
         height: 38px;
