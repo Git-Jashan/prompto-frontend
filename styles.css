@@ -625,7 +625,7 @@ dialog.save-dialog {
         z-index: 100;
         background-color: #ffffff;
         flex-shrink: 0;
-        margin-bottom: 8px;
+        margin-bottom: 12px;
     }
     .footer{
         display: none;
