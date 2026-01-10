@@ -30,7 +30,7 @@ async function sendMessage() {
   }
   
   // FIX: Get selected model category
-  const modelCategory = document.getElementById('modelCategory');
+  const modelCategory = document.getElementById('categoryModel');
   const selectedModel = modelCategory ? modelCategory.value : 'text';
   
   if (chatContainer.children.length === 0) {
@@ -317,6 +317,7 @@ recognition.lang = "en-US";
 recognition.interimResults = true;
 recognition.continuous = true;
 
+
 let isListening = false;
 let finalTranscript = "";
 
@@ -324,6 +325,7 @@ voiceBtn.addEventListener("click", () => {
   if (!isListening) {
     recognition.start();
     isListening = true;
+    userText.ariaReadOnly=true;
     voiceBtn.innerHTML = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"currentColor\" aria-hidden=\"true\">\n  <rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" fill=\"white\"/>\n</svg>";
     recognition.onresult = (event) => {
       let interimTranscript = "";
@@ -340,6 +342,7 @@ voiceBtn.addEventListener("click", () => {
   } else {
     recognition.stop();
     isListening = false;
+    userText.ariaReadOnly =false;
     voiceBtn.innerHTML = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"currentColor\" aria-hidden=\"true\">\n  <path d=\"M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 14 0h-2zM11 19h2v3h-2z\"/>\n</svg>";  
   }});
 
