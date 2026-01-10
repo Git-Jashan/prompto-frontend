@@ -169,7 +169,7 @@ a{
 }
 
 .userText {
-  width: 85%;
+  flex: 1;
   height: 36px;
   padding: 8px;
   outline: none;
@@ -210,7 +210,7 @@ a{
   padding: var(--space-md);
   gap: var(--space-xl);
   background-color: var(--color-bg-white);
-  border: 2px solid var(--color-bg-primary);
+  border: 2px solid var(--color-bg-light);
   border-radius: var(--radius-full);
   box-shadow: 0 0 6px rgb(164, 163, 163);
   flex-shrink: 0;
@@ -223,7 +223,7 @@ a{
   font-size: var(--font-lg);
   color: white;
   font-weight: 700;
-  border: 3px solid var(--color-text-gray); ;
+  border: 3px solid var(--color-text-gray);
   cursor: pointer;
   transition: opacity 0.2s;
 }
@@ -633,7 +633,7 @@ option {
 
 .promptsGrid{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     gap: 16px;
     width: 100%;
 }
@@ -647,7 +647,7 @@ option {
 
 #promptsList{
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 16px;
   width: 98%;
 }
@@ -806,9 +806,9 @@ option {
 /* RESPONSIVE DESIGN - MOBILE */
 @media (max-width: 480px) {
   body {
-    height: 100dvh; /* dvh = dynamic viewport height, accounts for mobile browser UI */
+    height: 100dvh;
     overflow: hidden;
-    padding-bottom: 60px;
+    padding-bottom: 30px;
   }
   .top {
     padding: var(--space-sm) var(--space-xs);
@@ -852,7 +852,7 @@ option {
     padding: 10px 8px;
     font-size: 14px;
     gap: 10px;
-    padding-bottom: 110px; /* Space for typer (80px) + footer (60px) */
+    padding-bottom: 100px;
     margin-bottom: 0;
     flex: 1;
     overflow-y: auto;
@@ -894,7 +894,7 @@ option {
   }
   
   .userText {
-    width: calc(100% - 50px);
+    flex: 1;
     height: 38px;
     font-size: 15px;
     padding: var(--space-sm);
@@ -902,12 +902,12 @@ option {
   .categoryModel{
     font-size: 15px;
   }
-  /* FIXED: ActionBar also positioned correctly */
+
   .actionBar.active {
     position: fixed;
     left: 0;
     right: 0;
-    bottom: 30px; /* Same as typer - height of footer */
+    bottom: 30px;
     width: 100%;
     margin: 0;
     padding: 12px;
@@ -953,7 +953,7 @@ option {
   
   #email, #password, #promptName, #promptTag {
     padding: 10px;
-    font-size: 16px; /* Never go below 16px on iOS to prevent zoom */
+    font-size: 16px;
     width: 100%;
   }
   
@@ -1008,17 +1008,19 @@ option {
 
   .promptsGrid{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 16px;
+    grid-template-columns:  repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px;
     width: 98%;
+    overflow-x: hidden;
   }
 
   #promptsList{
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: 1fr;
   gap: 12px;
   width: 98%;
   }
+  
 
   .footer {
     position: fixed;
@@ -1060,6 +1062,7 @@ option {
       width: 100%;
       padding: 6px;
   }
+  
 }
 /* Very small phones */
 @media (max-width: 360px) {
@@ -1094,6 +1097,9 @@ option {
         font-size: 13px;
         padding: 8px 12px;
     }
+    .promptGrid{
+      grid-template-columns:  repeat(auto-fill, minmax(100px, 1fr));
+    }
 }
 
 /* Landscape mode */
@@ -1107,11 +1113,11 @@ option {
     }
     
     .typer {
-        bottom: 40px;
+        bottom: 30px;
     }
     
     .actionBar.active {
-        bottom: 40px;
+        bottom: 30px;
     }
     
     .footer {
