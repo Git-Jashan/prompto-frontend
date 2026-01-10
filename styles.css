@@ -554,6 +554,7 @@ dialog.save-dialog {
     outline: none;
     border: white;
 }
+
 #uploadPromptBox {
     display: none;
     position: fixed; 
@@ -568,6 +569,7 @@ dialog.save-dialog {
     align-items: center;
     animation: fadeIn 0.2s ease-out;
 }
+
 .uploadPromptContent {
     background-color: white;
     padding: 25px;
@@ -610,11 +612,13 @@ option {
 }
 .exploreSection {
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
   margin-bottom: 24px;
+  overflow: hidden;
 }
 
 .savedSection {
@@ -625,19 +629,28 @@ option {
   gap: 12px;
   margin: 20px;
 }
+
 .promptsGrid{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
     gap: 16px;
-    width: 98%;
-    overflow-y: auto;
+    width: 100%;
 }
+
+.promptListContainer{
+  width: 100%;
+  height: fit-content;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
 #promptsList{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
   gap: 16px;
   width: 98%;
 }
+
 .footer {
     padding-top: 6px;
     padding-bottom:10px;
@@ -867,7 +880,7 @@ option {
     flex-shrink: 0;
   }
   
-  .sendBtn {
+  .sendBtn,.voiceText {
     height: 38px;
     width: 38px;
     font-size: var(--font-xl);
@@ -885,7 +898,9 @@ option {
     font-size: 15px;
     padding: var(--space-sm);
   }
-  
+  .categoryModel{
+    font-size: 15px;
+  }
   /* FIXED: ActionBar also positioned correctly */
   .actionBar.active {
     position: fixed;
@@ -989,7 +1004,21 @@ option {
     font-size: 13px;
     max-height: 80px;
   }
-  
+
+  .promptsGrid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    width: 98%;
+  }
+
+  #promptsList{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+  width: 98%;
+  }
+
   .footer {
     position: fixed;
     bottom: 0;

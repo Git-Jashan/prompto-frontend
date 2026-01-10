@@ -207,7 +207,7 @@ async function loadExplorePrompts(categoryFilter = 'All', searchTerm = '') {
         <div style="font-size: 0.8rem; color: #888; margin-bottom: 8px;">
           By ${escapeHtml(data.author)} • ${dateStr}
         </div>
-        <div class="prompt-text">${escapeHtml(data.content)}</div>
+        <div class="prompt-text" style="display:flex; flex-wrap:wrap; height: 250px; overflow-y:auto; width:99%; overflow-x:hidden;">${escapeHtml(data.content)}</div>
         
         <div style="margin-top:15px; display:flex; gap:10px;">
           <button class="copy-btn" style="padding: 8px 12px; cursor:pointer; background-color:black;color:white;border-radius:4px;border:none;">Copy</button>
