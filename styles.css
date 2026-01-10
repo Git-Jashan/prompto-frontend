@@ -1,3 +1,29 @@
+:root {
+  --color-primary: #000000;
+  --color-bg-light: #F5F5F7;
+  --color-bg-white: #FDFDFD;
+  --color-text-gray: #888888;
+  --color-error: #ff4d4d;
+  --color-success: #74f474;
+  --color-border: #dddddd;
+  
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+  
+  --font-sm: 0.875rem;
+  --font-base: 1rem;
+  --font-lg: 1.25rem;
+  --font-xl: 1.5rem;
+  --font-2xl: 2rem;
+}
 * {
     margin: 0;
     padding: 0;
@@ -5,14 +31,16 @@
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 body {
-    background-color: #F5F5F7;
-    display: flex;
-    height: 100dvh;
-    width: 100%;
-    flex-direction: column;
-    box-sizing: border-box;
-    align-items: center;
     overflow: hidden; 
+}
+.dashboard-container {
+  background-color: #F5F5F7;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
 }
 .top{
     display: flex;
@@ -49,10 +77,8 @@ body {
 
 #tagline{
     width: 100%;
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin: auto;
+    text-align: center;
 }
 
 #tagline.hidden{
@@ -94,81 +120,115 @@ a{
     text-decoration: none;
 }
 
-.typer{
-    margin-bottom: 0px;
-    width: 96%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px;
-    gap: 2px;
-    background-color: #ffffff;
-    border: 2px solid #F5F5F7;
-    border-radius: 60px;
-    box-shadow: 0 0 6px rgb(214, 214, 214);
-    flex-shrink: 0;
+.typer {
+  margin-bottom: 0;
+  width: 96%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md);
+  gap: var(--space-xs);
+  background-color: var(--color-bg-white);
+  border: 2px solid var(--color-bg-light);
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 6px rgb(214, 214, 214);
+  flex-shrink: 0;
+  position: relative;
 }
 
-.addFiles, .userText, .sendBtn{
-    height: 45px;
-    background-color: #FDFDFD;
-    border: 0;
-    font-size: larger;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.voiceText, .userText, .sendBtn {
+  height: 45px;
+  background-color: var(--color-bg-white);
+  border: 0;
+  font-size: var(--font-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.sendBtn{
-    background-color: black;
-    color:#F5F5F7;
-    height: 40px;
-    width: 40px;
-    font-size: xx-large;
-    border-radius: 95%;
+.sendBtn, .voiceText {
+  background-color: var(--color-primary);
+  color: var(--color-bg-light);
+  height: 40px;
+  width: 40px;
+  font-size: var(--font-2xl);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.sendBtn:hover {
+  opacity: 0.8;
 }
 
 .send-icon {
-  width: 20px;
-  height: 20px;
-  fill:white;
+  width: 22px;
+  height: 22px;
+  fill: white;
   display: flex;
 }
 
-.userText{
-    width: 93%;
-    height: 42px;
-    padding: 10px;
+.userText {
+  width: 85%;
+  height: 36px;
+  padding: 8px;
+  outline: none;
+  resize:none;
+  overflow-y: auto;
+}
+.categoryModel{
+    width: auto;
+    height: 40px;
+    font-size: large;
+    border-radius: var(--radius-full);
+    background-color: var(--color-bg-white);
+    border: none;
     outline: none;
-    resize: none;
+    appearance: none;
+   -webkit-appearance: none;
+   -moz-appearance: none;
+    padding: 0px 6px;
+    cursor: pointer;
 }
 
-.actionBar{
- display: none;
+.categoryModel:hover{
+   background-color:var(--color-bg-light);
+   border: 2px solid #aaaaaa;
 }
 
-.actionBar.active{
-    margin: 18px;
-    width: 96%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 18px;
-    gap: 123px;
-    background-color: #ffffff;
-    border: 2px solid #F5F5F7;
-    border-radius: 60px;
-    box-shadow: 0 0 6px rgb(214, 214, 214);
-    flex-shrink: 0;
+.actionBar {
+  display: none;
 }
 
-.copyBtn,.saveBtn,.newChat{
-    background-color: black;
-    padding: 16px;
-    border-radius: 55px;
-    font-size: larger;
-    color: white;
-    font-weight: 700;
+.actionBar.active {
+  margin: var(--space-md);
+  width: 96%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  gap: var(--space-xl);
+  background-color: var(--color-bg-white);
+  border: 2px solid var(--color-bg-primary);
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 6px rgb(164, 163, 163);
+  flex-shrink: 0;
+}
+
+.copyBtn, .saveBtn, .newChat {
+  background-color: var(--color-primary);
+  padding: var(--space-md);
+  border-radius: var(--radius-full);
+  font-size: var(--font-lg);
+  color: white;
+  font-weight: 700;
+  border: 3px solid var(--color-text-gray); ;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.copyBtn:hover, .saveBtn:hover, .newChat:hover {
+  opacity: 0.8;
 }
 
 .typer.hidden{
@@ -248,7 +308,7 @@ dialog.save-dialog {
     margin: 18px;
 }
 
-#cancelBtn,#confirmBtn,#emailLoginBtn,#googleBtn{
+#cancelBtn,#confirmBtn,#emailSignInBtn,#emailSignUpBtn,#googleBtn{
     padding: 16px;
     margin: 0px 16px;
     font-size: larger;
@@ -268,6 +328,10 @@ dialog.save-dialog {
     font-size: larger;
 }
 
+#email, #password{
+    font-size: large;
+}
+
 #cancelBtn{
     background-color: rgb(246, 57, 57);
     color: white;
@@ -278,7 +342,8 @@ dialog.save-dialog {
     color: white;
 }
 
-#emailLoginBtn{
+#emailSignInBtn, #emailSignUpBtn{
+    margin: 0px 5px;
     background-color: black;
     color: white;
     height: 52px;
@@ -355,15 +420,6 @@ dialog.save-dialog {
 }
 
 /* LIBRARY */
-.dashboard-container {
-    margin-top: 12px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    overflow-y: auto;
-}
 
 .prompt-card {
     background: #fff;
@@ -398,7 +454,190 @@ dialog.save-dialog {
     max-height: 100px;
     overflow-y: auto;
 }
+.libraryContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.switch-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 18px;
+    margin-bottom: 4px;
+}
 
+.switch-track {
+    display: flex;
+    background-color: #ffffff;
+    border: 3px solid black; 
+    border-radius: 60px;
+    padding: 4px;
+    gap: 4px;
+    box-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+}
+
+.tab-btn {
+    padding: 10px 24px;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    background-color: transparent;
+    color: #888;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.tab-btn.active {
+    background-color: black;
+    color: white;
+    transform: scale(1.05);
+}
+
+.tab-btn:not(.active):hover {
+    color: black;
+    background-color: #f0f0f0;
+}
+.exploreSection,.savedSection {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+.topBar{
+    display: flex;
+    width: 50%;
+    gap:4px;
+    margin: 12px 0px;
+    padding: 6px;
+}
+#promptCategory, #uploadPrompt{
+    padding: 8px;
+    font-size: large;
+    border: 0;
+    background-color: black;
+    color: white;
+}
+#promptCategory{
+    padding-right: 2px;
+    color: white;
+    option{
+        color:white;
+    }
+    border-radius: 10px;
+    flex-shrink: 0;
+    font-weight: 500;
+}
+#uploadPrompt{
+    font-size: 24px;
+    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    font-weight: 500;
+}
+.defaultExplore{
+    padding: auto;
+    font-weight: 700;
+    font-size: x-large;
+}
+#searchInput{
+    width: 90%;
+    padding: 8px;
+    font-size: large;
+    border: 2px solid #ddd;
+    background-color:var(--color-bg-white);
+    border-radius: 8px;
+    outline: none;
+    border: white;
+}
+#uploadPromptBox {
+    display: none;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px); 
+    z-index: 2000; 
+    justify-content: center; 
+    align-items: center;
+    animation: fadeIn 0.2s ease-out;
+}
+.uploadPromptContent {
+    background-color: white;
+    padding: 25px;
+    width: 90%;
+    max-width: 500px;
+    height: fit-content;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    transform: scale(0.9);
+    animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+#uploadPromptName, #uploadPromptCategory, #uploadPromptBody{
+    width: 75%;
+    padding: 8px;
+    font-size: large;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+}
+#uploadPromptBody{
+    height: 100px;
+}
+#uploadPromptCategory{
+    background-color: white;
+}
+select:invalid {
+  color: #888;
+}
+select:valid {
+  color: black; 
+}
+option {
+  color: black;
+}
+.exploreSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.savedSection {
+  width: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: 20px;
+}
+.promptsGrid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+    gap: 16px;
+    width: 98%;
+    overflow-y: auto;
+}
+#promptsList{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  gap: 16px;
+  width: 98%;
+}
 .footer {
     padding-top: 6px;
     padding-bottom:10px;
@@ -487,8 +726,8 @@ dialog.save-dialog {
 /*RESPONSIVE DESIGN - TABLET*/
 @media (max-width: 768px) {
     body{
-        height: 100dvh;
-        overflow: hidden;
+        height: 100%;
+        margin: 0;
     }
     .topLeft {
         font-size: x-large;
@@ -504,7 +743,7 @@ dialog.save-dialog {
     .chatContainer.active {
         padding: 15px 10px;
         font-size: medium;
-        margin-bottom: 100px;
+        height: 80%;
     }
     
     .userMessage, .aiMessage, .thinking {
@@ -514,7 +753,6 @@ dialog.save-dialog {
         line-height: 1.4;
     }
      .typer {
-        position: relative; 
         width: 100%; 
         gap: 6px;
         box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
@@ -553,248 +791,246 @@ dialog.save-dialog {
 
 /* RESPONSIVE DESIGN - MOBILE */
 @media (max-width: 480px) {
-    body {
-        height: 100dvh;
-        overflow: hidden;
-    }
-    
-    .top {
-        padding: 8px 6px;
-    }
-    
-    .topLeft {
-        font-size: large;
-        gap: 3px;
-    }
-    
-    .topLeft span:first-child {
-        font-size: 28px;
-    }
-    
-    .topRight {
-        font-size: medium;
-        padding-right: 4px;
-        gap: 8px;
-    }
-    
-    #loginBtn {
-        padding: 6px 12px;
-        font-size: medium;
-    }
-    
-    .avatar {
-        width: 36px;
-        height: 36px;
-        border: 2px solid #ddd;
-    }
-    
-    .dropdown-menu {
-        width: 200px;
-        top: 48px;
-        right: -10px;
-        padding: 12px;
-    }
-    
-    #tagline {
-        padding: 20px;
-        text-align: center;
-        font-size: large;
-    }
-    
-    .chatContainer.active {
-        padding: 10px 8px;
-        font-size: 14px;
-        gap: 10px;
-        padding-bottom: 20px;
-        margin-bottom: 0;
-        flex: 1;
-        overflow-y: auto;
-    }
-    .userMessage, .aiMessage, .thinking {
-        max-width: 90%;
-        padding: 10px 14px;
-        font-size: 14px;
-        line-height: 1.5;
-        border-radius: 12px;
-    }
-    .typer {
-        position: relative; 
-        width: 100%; 
-        gap: 6px;
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-        z-index: 100;
-        background-color: #ffffff;
-        flex-shrink: 0;
-    }
-    .footer{
-        display: none;
-    }
-    .addFiles, .sendBtn {
-        height: 38px;
-        width: 38px;
-        font-size: x-large;
-        flex-shrink: 0;
-    }
-    
-    .send-icon {
-        width: 18px;
-        height: 18px;
-    }
-    
-    .userText {
-        width: calc(100% - 20px);
-        height: 38px;
-        font-size: 15px;
-        padding: 8px;
-        scroll-margin-bottom: 20px;
-    }
-    
-   .actionBar.active {
-        position: relative;
-        width: 100%;
-        padding: 12px;
-        gap: 12px;
-        border-radius: 0;
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-        flex-wrap: nowrap;
-        justify-content: space-around;
-        z-index: 100;
-        background-color: #ffffff;
-        flex-shrink: 0;
-        margin-bottom: 30px;
-    }
-    
-    .copyBtn, .saveBtn, .newChat {
-        padding: 10px 16px;
-        font-size: 14px;
-        flex: 1;
-        text-align: center;
-        white-space: nowrap;
-        border-radius: 25px;
-    }
-    .modal {
-        padding: 10px;
-    }
-    
-    .modal-content {
-        width: 95%;
-        max-height: 85vh;
-        padding: 15px;
-        gap: 18px;
-    }
-    
-    .close-btn {
-        font-size: 28px;
-    }
-    
-    #emailLoginBtn, #googleBtn {
-        padding: 12px 18px;
-        font-size: medium;
-        height: auto;
-    }
-    
-    #googleBtn {
-        height: auto;
-        padding: 12px 18px;
-    }
-    
-    #email, #password, #promptName, #promptTag {
-        padding: 10px;
-        font-size: 16px;
-        width: 100%;
-    }
-    
-    #promptTag, #password {
-        margin-bottom: 2px;
-    }
-    
-    dialog.save-dialog {
-        width: 92%;
-        max-width: 350px;
-        padding: 10px;
-    }
-    
-    .saveMsgBox {
-        height: auto;
-        margin: 12px;
-        gap: 15px;
-    }
-    
-    .saveBtnInput {
-        width: 100%;
-        gap: 15px;
-    }
-    
-    #cancelBtn, #confirmBtn {
-        padding: 12px 16px;
-        font-size: medium;
-        margin: 0 8px;
-    }
-   
-    .dashboard-container {
-        margin-top: 8px;
-        padding: 0 10px 50px 10px;
-    }
-    
-    .prompt-card {
-        padding: 15px;
-        margin-bottom: 12px;
-    }
-    
-    .prompt-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
-    
-    .prompt-tag {
-        font-size: 0.75rem;
-    }
-    
-    .prompt-text {
-        font-size: 13px;
-        max-height: 80px;
-    }
-    
-    .footer {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding-bottom: 8px;
-        padding-top: 8px;
-        z-index: 99;
-        background-color: #F5F5F7;
-    }
-    
-    .footer-content {
-        gap: 4px;
-    }
-    
-    .footer-links {
-        font-size: 12px;
-        gap: 8px;
-    }
-    
-    .footer-copy {
-        font-size: 10px;
-    }
-    
-    .terms-modal {
-        width: 95%;
-        padding: 20px;
-        max-height: 85vh;
-    }
-    
-    .terms-text h3 {
-        font-size: 16px;
-    }
-    
-    .terms-text p, .terms-text li {
-        font-size: 14px;
-    }
+  body {
+    height: 100dvh; /* dvh = dynamic viewport height, accounts for mobile browser UI */
+    overflow: hidden;
+    padding-bottom: 60px;
+  }
+  .top {
+    padding: var(--space-sm) var(--space-xs);
+  }
+  
+  .topLeft {
+    font-size: var(--font-lg);
+    gap: 3px;
+  }
+  
+  .topRight {
+    font-size: var(--font-base);
+    padding-right: 4px;
+    gap: var(--space-sm);
+  }
+  
+  #loginBtn {
+    padding: 6px 12px;
+    font-size: var(--font-base);
+  }
+  
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border: 2px solid var(--color-border);
+  }
+  
+  .dropdown-menu {
+    width: 200px;
+    top: 48px;
+    right: -10px;
+    padding: 12px;
+  }
+  
+  #tagline {
+    font-size: var(--font-lg);
+    padding: var(--space-md);
+  }
+  
+  .chatContainer.active {
+    padding: 10px 8px;
+    font-size: 14px;
+    gap: 10px;
+    padding-bottom: 110px; /* Space for typer (80px) + footer (60px) */
+    margin-bottom: 0;
+    flex: 1;
+    overflow-y: auto;
+  }
+  
+  .userMessage, .aiMessage, .thinking {
+    max-width: 90%;
+    padding: 10px 14px;
+    font-size: 14px;
+    line-height: 1.5;
+    border-radius: 12px;
+  }
+  
+  .typer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 30px; 
+    width: 100%;
+    margin: 0;
+    padding: 12px;
+    border-radius: 30px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    background-color: var(--color-bg-white);
+    flex-shrink: 0;
+  }
+  
+  .sendBtn {
+    height: 38px;
+    width: 38px;
+    font-size: var(--font-xl);
+    flex-shrink: 0;
+  }
+  
+  .send-icon {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .userText {
+    width: calc(100% - 50px);
+    height: 38px;
+    font-size: 15px;
+    padding: var(--space-sm);
+  }
+  
+  /* FIXED: ActionBar also positioned correctly */
+  .actionBar.active {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 30px; /* Same as typer - height of footer */
+    width: 100%;
+    margin: 0;
+    padding: 12px;
+    gap: 12px;
+    border-radius: 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    z-index: 100;
+    background-color: var(--color-bg-white);
+    flex-shrink: 0;
+  }
+  
+  .copyBtn, .saveBtn, .newChat {
+    padding: 10px 16px;
+    font-size: 14px;
+    flex: 1;
+    text-align: center;
+    white-space: nowrap;
+    border-radius: 25px;
+  }
+  
+  .modal {
+    padding: 10px;
+  }
+  
+  .modal-content {
+    width: 95%;
+    max-height: 85vh;
+    padding: 15px;
+    gap: 18px;
+  }
+  
+  .close-btn {
+    font-size: 28px;
+  }
+  
+  #emailLoginBtn, #googleBtn {
+    padding: 12px 18px;
+    font-size: var(--font-base);
+    height: auto;
+  }
+  
+  #email, #password, #promptName, #promptTag {
+    padding: 10px;
+    font-size: 16px; /* Never go below 16px on iOS to prevent zoom */
+    width: 100%;
+  }
+  
+  dialog.save-dialog {
+    width: 92%;
+    max-width: 350px;
+    padding: 10px;
+  }
+  
+  .saveMsgBox {
+    height: auto;
+    margin: 12px;
+    gap: 15px;
+  }
+  
+  .saveBtnInput {
+    width: 100%;
+    gap: 15px;
+  }
+  
+  #cancelBtn, #confirmBtn {
+    padding: 12px 16px;
+    font-size: var(--font-base);
+    margin: 0 var(--space-sm);
+  }
+  
+  .dashboard-container {
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .prompt-card {
+    padding: 15px;
+    margin-bottom: 12px;
+  }
+  
+  .prompt-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+  
+  .prompt-tag {
+    font-size: 0.75rem;
+  }
+  
+  .prompt-text {
+    font-size: 13px;
+    max-height: 80px;
+  }
+  
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    padding: 7px;
+    z-index: 99;
+  }
+  
+  .footer-content {
+    gap: 4px;
+  }
+  
+  .footer-links {
+    font-size: 12px;
+    gap: var(--space-sm);
+  }
+  
+  .footer-copy {
+    font-size: 10px;
+  }
+  
+  .terms-modal {
+    width: 95%;
+    padding: 20px;
+    max-height: 85vh;
+  }
+  
+  .terms-text h3 {
+    font-size: 16px;
+  }
+  
+  .terms-text p, .terms-text li {
+    font-size: 14px;
+  }
+  .topBar{
+      width: 100%;
+      padding: 6px;
+  }
 }
-
 /* Very small phones */
 @media (max-width: 360px) {
     body{
@@ -851,4 +1087,27 @@ dialog.save-dialog {
     .footer {
         padding: 5px;
     }
+}
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popUp {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prompto</title>
-    <link rel="icon" href="images/logo.png" type="image/png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/prompto.favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/prompto.favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/images/prompto.favicon/apple-touch-icon.png">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="dashboard-container">
     <div class="top">
     <div class="topLeft"><img src="images/logo.png" alt="logo" width="36px" height="36px" >
     <a href="index.html">Prompto</a></div>
@@ -16,10 +19,10 @@
     <a href="library.html" >Prompt library</a></div>
 
     <div id="authButtons">
-    <button id="loginBtn">Login</button>
-</div>
+    <button id="loginBtn">Login</button></div>
+    
 
-<div id="userProfile" class="user-profile" style="display: none;">
+    <div id="userProfile" class="user-profile" style="display: none;">
     
     <img src="" id="userAvatar" class="avatar" alt="Profile">
 
@@ -41,15 +44,30 @@
         <input type="email" id="email" placeholder="Email">
         <input type="password" id="password" placeholder="Password">
         
-        <button id="emailLoginBtn">Sign in</button>
+        <span><button id="emailSignInBtn">Sign in</button>
+        <button id="emailSignUpBtn">Sign up</button></span>
         <button id="googleBtn">Sign in with Google</button></div>
     </div></div>
 
-    <div class=chatContainer></div>
+    <div class="chatContainer"></div>
     <h1 id="tagline">Type less. Get more.</h1>
 
     <div class="typer">
+    <button class="voiceText">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+  <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 14 0h-2zM11 19h2v3h-2z"/>
+</svg>
+
+    </button>
     <textarea class="userText" placeholder="Tell brief context..."></textarea>
+
+    <select id="categoryModel" class="categoryModel">
+      <option value="generalPrompt">Text Prompt</option>
+      <option value="imagePrompt">Image Prompt</option>
+      <option value="videoPrompt">Video Prompt</option>
+      <option value="codePrompt">Code Prompt</option>
+      <option value="researchPrompt">Research Prompt</option>
+    </select>
     <button class="sendBtn">
     <svg viewBox="0 0 24 24" class="send-icon">
     <path d="M3 4.5L20.5 12L3 19.5L4.8 13.8L11.25 12L4.8 10.2L3 4.5Z" />
@@ -195,9 +213,7 @@
       
       <h3>11. Contact</h3>
       <p>Privacy questions? Email: privacy@prompto.com</p>
-    </div>
-  </div>
-</div>
+    </div></div></div>
     <script type="module" src="auth.js"></script>
     <script type="module" src="scripts.js"></script>
 </body>

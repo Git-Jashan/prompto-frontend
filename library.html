@@ -37,19 +37,73 @@
         <input type="email" id="email" placeholder="Email">
         <input type="password" id="password" placeholder="Password">
         
-        <button id="emailLoginBtn">Sign in</button>
+        <span><button id="emailSignInBtn">Sign in</button>
+        <button id="emailSignUpBtn">Sign up</button></span>
         <button id="googleBtn">Sign in with Google</button>
         </div>
     </div></div>
 
-    <div class="dashboard-container">
-        <h1>My Collection</h1>
-        
-        <div id="promptsList">
-            <p>Loading your prompts...</p>
+    <div class="libraryContainer">
+
+    <div class="switch-container">
+    <div class="switch-track">
+        <button id="exploreBtn" class="tab-btn active" >
+             Explore
+        </button>
+        <button id="savedBtn" class="tab-btn">
+            Saved
+        </button>
+    </div>
+</div>
+
+<div class="exploreSection" id="exploreSection">
+        <div id="topBar" class="topBar">
+             <select id="promptCategory" class="promptCategory" required>
+        <option value="" disabled selected hidden>Categories</option>
+        <option value="All">All</option>
+        <option value="Image">Image</option>
+        <option value="Video">Video</option>
+        <option value="Research">Research</option>
+        <option value="Education">Education</option>
+        <option value="Coding">Coding</option>
+        <option value="Other">Other </option>
+        </select>
+            <input id="searchInput" type="text" placeholder="Search prompts...">
+            <button id="uploadPrompt">+</button>
+           
+  </form>
         </div>
+        <div id="promptsGrid" class="promptsGrid">
+            <p>Loading prompts...</p>
+</div></div>
+ 
+<div class="savedSection" id="savedSection">
+        <div id="promptsList">
+            <p>Loading your prompts...</p>       </div>
     </div>
 
+<form method="dialog">
+    <div class="uploadPromptBox" id="uploadPromptBox">
+        <div class="uploadPromptContent">
+        <h1>Upload Prompt</h1>
+        <input type="text" id="uploadPromptName" placeholder="Name..." required >
+        <select id="uploadPromptCategory" class="uploadPromptCategory" required>
+        <option value="" disabled selected hidden>Select a Category...</option>
+
+        <option value="Image">Image</option>
+        <option value="Video">Video</option>
+        <option value="Research">Research</option>
+        <option value="Education">Education</option>
+        <option value="Coding">Coding</option>
+        <option value="Other">Other </option>
+        </select>
+        <textarea type="text" id="uploadPromptBody" placeholder="Prompt..." required></textarea>
+        <div>
+            <button id="cancelBtn" class="cancelUpload">Cancel</button>
+            <button id="confirmBtn" class="confirmUpload">Upload</button>
+        </div>
+    </div></div>
+    
     <script type="module" src="auth.js"></script>
     <script type="module" src="library.js"></script>
 </body>

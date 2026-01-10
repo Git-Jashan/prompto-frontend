@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword,createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -19,7 +19,8 @@ const db = getFirestore(app);
 const modal = document.getElementById("loginPopup");
 const closeSpan = document.querySelector(".close-btn");
 const googleBtn = document.getElementById('googleBtn');
-const emailLoginBtn = document.getElementById('emailLoginBtn');
+const emailSignInBtn = document.getElementById('emailSignInBtn');
+const emailSignUpBtn = document.getElementById('emailSignUpBtn');
 const authButtons = document.getElementById('authButtons');
 const loginBtn = document.getElementById('loginBtn');
 const userProfile = document.getElementById('userProfile'); 
@@ -73,17 +74,30 @@ if(googleBtn) {
             });
     });
 }
-
-if(emailLoginBtn) {
-    emailLoginBtn.addEventListener('click', () => {
+if(emailSignInBtn) {
+    emailSignInBtn.addEventListener('click', () => {
         const email = document.getElementById('email').value;
-        const pass = document.getElementById('password').value;
-        signInWithEmailAndPassword(auth, email, pass)
+        const password = document.getElementById('password').value;
+
+        signInWithEmailAndPassword(auth, email, password)
             .catch((error) => {
-                alert("Error: " + error.message);
+                console.error(error);
+                alert("Sign In Failed: " + error.message);
             });
     });
 }
+if(emailSignUpBtn) {
+    emailSignUpBtn.addEventListener('click', () => {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        createUserWithEmailAndPassword(auth, email, password)
+            .catch((error) => {
+                console.error(error);
+                alert("Sign Up Failed: " + error.message);
+            });
+    });
+}   
 
 if (userAvatar) {
     userAvatar.addEventListener('click', (e) => {

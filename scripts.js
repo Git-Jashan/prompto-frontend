@@ -1,3 +1,4 @@
+import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 const tagline = document.querySelector("#tagline");
 const sendBtn = document.querySelector(".sendBtn");
 const userText = document.querySelector(".userText");
@@ -5,7 +6,7 @@ const chatContainer = document.querySelector(".chatContainer");
 const typer = document.querySelector(".typer");
 const actionBar = document.querySelector(".actionBar");
 const modal = document.getElementById("loginPopup");
-const loginBtn = document.getElementById("openLoginBtn");
+const loginBtn = document.getElementById("loginBtn");
 const span = document.getElementsByClassName("close-btn")[0];
 
 sendBtn.addEventListener("click", sendMessage);
@@ -16,6 +17,7 @@ userText.addEventListener("keydown", (e) => {
     sendBtn.click();
   }
 });
+
 async function sendMessage() {
   const text = userText.value.trim();
   if (text === "") return;
@@ -26,6 +28,10 @@ async function sendMessage() {
     modal.style.display = "flex";
     return;
   }
+  
+  // FIX: Get selected model category
+  const modelCategory = document.getElementById('modelCategory');
+  const selectedModel = modelCategory ? modelCategory.value : 'text';
   
   if (chatContainer.children.length === 0) {
     tagline.classList.add("hidden");
@@ -50,7 +56,10 @@ async function sendMessage() {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${idToken}`
       },
-      body: JSON.stringify({ message: text })
+      body: JSON.stringify({ 
+        message: text,
+        promptType: selectedModel
+      })
     });
     
     const data = await response.json();
@@ -134,17 +143,9 @@ document.querySelector(".newChat").addEventListener("click", async () => {
 });
 
 document.querySelector(".copyBtn").addEventListener("click", () => {
-
-const allAiMessages = document.querySelectorAll(".aiMessage");
   
-  let lastActualAiMessage = null;
-  for (let i = allAiMessages.length - 1; i >= 0; i--) {
-    if (!allAiMessages[i].classList.contains('info') && 
-        !allAiMessages[i].classList.contains('error')) {
-      lastActualAiMessage = allAiMessages[i];
-      break;
-    }
-  }
+  const lastActualAiMessage = getLastPromptMessage();
+  
   if (lastActualAiMessage) {
     const text = lastActualAiMessage.textContent;
     navigator.clipboard.writeText(text);
@@ -153,13 +154,14 @@ const allAiMessages = document.querySelectorAll(".aiMessage");
     alert("No prompt to copy!");
   }})
 
-if(loginBtn){loginBtn.onclick = function() {
+if(loginBtn)
+  {loginBtn.onclick = function() {
   modal.style.display = "flex";
-}
-}
+}}
+if(span){
 span.onclick = function() {
   modal.style.display = "none";
-}
+}}
 
 window.onclick = function(event) {
   if (event.target == modal) {
@@ -207,27 +209,18 @@ if (confirmBtn) {
     const nameValue = promptName.value;
     const tagValue = promptTag.value || "Uncategorized";
 
-    if (!nameValue.trim()) {
+    if (!nameValue) {
       alert("Please give your prompt a name!");
       return;
     }
 
-    const allAiMessages = document.querySelectorAll(".aiMessage");
+    const lastActualAiMessage = getLastPromptMessage();
     
-    let lastActualAiMessage = null;
-    for (let i = allAiMessages.length - 1; i >= 0; i--) {
-      if (!allAiMessages[i].classList.contains('info') && 
-          !allAiMessages[i].classList.contains('error')) {
-        lastActualAiMessage = allAiMessages[i];
-        break;
-      }
-    }
-
     if (!lastActualAiMessage) {
       alert("Error: No AI prompt found to save.");
       return;
     }
-
+    
     const promptContent = lastActualAiMessage.innerText;
 
     try {
@@ -297,20 +290,75 @@ window.addEventListener('click', (e) => {
   }
 });
 
-if (window.visualViewport) {
-  const vv = window.visualViewport;
+function getLastPromptMessage() {
+const allAiMessages = document.querySelectorAll(".aiMessage");
+    
+for (let i = allAiMessages.length - 1; i >= 0; i--) {
+  if (!allAiMessages[i].classList.contains('info') && 
+      !allAiMessages[i].classList.contains('error')) {
+      return allAiMessages[i];
+      }}
+      return null;  }
 
-  vv.addEventListener('resize', () => {
-    const keyboardHeight = Math.max(
-      0,
-      window.innerHeight - vv.height
-    );
+ //voicefeature
 
-  
+const voiceBtn = document.querySelector(".voiceText");
 
-    typer.style.transform =
-      keyboardHeight > 0
-        ? `translateY(-${keyboardHeight+2}px)`
-        : 'translateY(0)';
-  });
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if (!SpeechRecognition) {
+  alert("Speech recognition not supported");
+  throw new Error("SpeechRecognition not supported");
 }
+
+const recognition = new SpeechRecognition();
+recognition.lang = "en-US";
+recognition.interimResults = true;
+recognition.continuous = true;
+
+let isListening = false;
+let finalTranscript = "";
+
+voiceBtn.addEventListener("click", () => {
+  if (!isListening) {
+    recognition.start();
+    isListening = true;
+    voiceBtn.innerHTML = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"currentColor\" aria-hidden=\"true\">\n  <rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" fill=\"white\"/>\n</svg>";
+    recognition.onresult = (event) => {
+      let interimTranscript = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalTranscript += transcript + " ";
+        } else {
+          interimTranscript += transcript;
+        }
+      }
+      userText.value = finalTranscript + interimTranscript;
+    }
+  } else {
+    recognition.stop();
+    isListening = false;
+    voiceBtn.innerHTML = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"currentColor\" aria-hidden=\"true\">\n  <path d=\"M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 14 0h-2zM11 19h2v3h-2z\"/>\n</svg>";  
+  }});
+
+  const categoryModelSelect = document.getElementById("categoryModel");
+
+
+function resizeSelect(el) {
+  const temp = document.createElement("span");
+  temp.style.visibility = "hidden";
+  temp.style.position = "absolute";
+  temp.style.whiteSpace = "nowrap";
+  temp.style.font = getComputedStyle(el).font;
+  temp.textContent = el.options[el.selectedIndex].text;
+
+  document.body.appendChild(temp);
+  el.style.width = temp.offsetWidth + 15+ "px";
+  document.body.removeChild(temp);
+}
+
+resizeSelect(categoryModelSelect);
+categoryModelSelect.addEventListener("change", () => resizeSelect(categoryModelSelect));
+ 
