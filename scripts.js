@@ -29,7 +29,7 @@ async function sendMessage() {
     return;
   }
   
-  const modelCategory = document.getElementById('.categoryModel');
+  const modelCategory = document.getElementById('categoryModel');
   const selectedModel = modelCategory ? modelCategory.value : 'text';
   
   if (chatContainer.children.length === 0) {
