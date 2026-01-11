@@ -364,3 +364,59 @@ function resizeSelect(el) {
 resizeSelect(categoryModelSelect);
 categoryModelSelect.addEventListener("change", () => resizeSelect(categoryModelSelect));
  
+// ========================================
+// MOBILE KEYBOARD FIX - ONE-TIME SOLUTION
+// ========================================
+
+// Detect mobile
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+if (isMobile) {
+  // Store original viewport height
+  let originalHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  
+  // Adjust layout when keyboard opens
+  const handleKeyboard = () => {
+    if (!window.visualViewport) return;
+    
+    const currentHeight = window.visualViewport.height;
+    const keyboardOpen = currentHeight < originalHeight;
+    
+    if (keyboardOpen) {
+      // Keyboard is open
+      document.body.style.height = `${currentHeight}px`;
+      document.body.style.overflow = 'hidden';
+      
+      // Move typer up (adjust this value if needed)
+      const typer = document.querySelector('.typer');
+      if (typer) {
+        typer.style.bottom = '10px';
+      }
+    } else {
+      // Keyboard closed
+      document.body.style.height = '100vh';
+      document.body.style.overflow = 'hidden';
+      
+      const typer = document.querySelector('.typer');
+      if (typer) {
+        typer.style.bottom = '30px';
+      }
+      
+      originalHeight = currentHeight;
+    }
+  };
+  
+  // Listen for viewport changes
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', handleKeyboard);
+    window.visualViewport.addEventListener('scroll', handleKeyboard);
+  }
+  
+  // Prevent body scroll when typing
+  userText.addEventListener('focus', () => {
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => {
+      userText.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 300);
+  });
+}

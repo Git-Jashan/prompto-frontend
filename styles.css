@@ -248,6 +248,7 @@ button:disabled{
     font-size: large;
     color: white;
     font-weight: 200; 
+    cursor: pointer;
 }
 
 .modal {
@@ -316,6 +317,7 @@ dialog.save-dialog {
     font-weight: 500;
     border-radius: 25px;
     border: 0;
+    cursor: pointer;
 }
 
 .saveBtnInput{
@@ -522,6 +524,7 @@ dialog.save-dialog {
     border: 0;
     background-color: black;
     color: white;
+    cursor: pointer;
 }
 #promptCategory{
     padding-right: 2px;
@@ -613,7 +616,7 @@ option {
 }
 .exploreSection {
   width: 100%;
-  height: 100%;
+  height: calc(100vh-200px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -636,6 +639,9 @@ option {
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     gap: 16px;
     width: 100%;
+    padding: 0 16px 80px 16px;
+    overflow-y: auto; 
+    max-height: 100%;
 }
 
 .promptListContainer{
@@ -809,6 +815,8 @@ option {
     height: 100dvh;
     overflow: hidden;
     padding-bottom: 30px;
+    position: fixed;
+    width: 100%;
   }
   .top {
     padding: var(--space-sm) var(--space-xs);
@@ -856,6 +864,8 @@ option {
     margin-bottom: 0;
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
   }
   
   .userMessage, .aiMessage, .thinking {
@@ -879,6 +889,7 @@ option {
     z-index: 100;
     background-color: var(--color-bg-white);
     flex-shrink: 0;
+    transition: bottom 0.3s ease;
   }
   
   .sendBtn,.voiceText {
@@ -896,9 +907,10 @@ option {
   .userText {
     flex: 1;
     height: 38px;
-    font-size: 15px;
+    font-size: 16px;
     padding: var(--space-sm);
   }
+  
   .categoryModel{
     font-size: 15px;
   }
