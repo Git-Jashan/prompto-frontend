@@ -369,54 +369,57 @@ categoryModelSelect.addEventListener("change", () => resizeSelect(categoryModelS
 // ========================================
 
 // Detect mobile
+// ========================================
+// MOBILE KEYBOARD FIX - CORRECTED
+// ========================================
+
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 if (isMobile) {
-  // Store original viewport height
-  let originalHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  let keyboardHeight = 0;
   
-  // Adjust layout when keyboard opens
   const handleKeyboard = () => {
     if (!window.visualViewport) return;
     
-    const currentHeight = window.visualViewport.height;
-    const keyboardOpen = currentHeight < originalHeight;
+    const viewportHeight = window.visualViewport.height;
+    const windowHeight = window.innerHeight;
     
-    if (keyboardOpen) {
-      // Keyboard is open
-      document.body.style.height = `${currentHeight}px`;
-      document.body.style.overflow = 'hidden';
-      
-      // Move typer up (adjust this value if needed)
-      const typer = document.querySelector('.typer');
+    // Keyboard is open if viewport is smaller
+    keyboardHeight = windowHeight - viewportHeight;
+    
+    const typer = document.querySelector('.typer');
+    const footer = document.querySelector('.footer');
+    
+    if (keyboardHeight > 100) {
+      // Keyboard OPEN
       if (typer) {
-        typer.style.bottom = '10px';
+        typer.style.bottom = `${keyboardHeight + 5}px`; // 10px above keyboard
+      }
+      if (footer) {
+        footer.style.display = 'none'; // Hide footer completely
       }
     } else {
-      // Keyboard closed
-      document.body.style.height = '100vh';
-      document.body.style.overflow = 'hidden';
-      
-      const typer = document.querySelector('.typer');
+      // Keyboard CLOSED
       if (typer) {
-        typer.style.bottom = '30px';
+        typer.style.bottom = '30px'; // Back to original position
       }
-      
-      originalHeight = currentHeight;
+      if (footer) {
+        footer.style.display = 'block'; // Show footer again
+      }
     }
   };
   
-  // Listen for viewport changes
   if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', handleKeyboard);
-    window.visualViewport.addEventListener('scroll', handleKeyboard);
   }
   
-  // Prevent body scroll when typing
+  // Prevent whole page scroll, only allow chat scroll
   userText.addEventListener('focus', () => {
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => {
-      userText.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 300);
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+  });
+  
+  userText.addEventListener('blur', () => {
+    document.body.style.position = 'static';
   });
 }
