@@ -408,7 +408,7 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         footer.classList.add('hidden');
         
         if (chatContainerEl && chatContainerEl.classList.contains('active')) {
-          chatContainerEl.style.paddingBottom = '80px';
+          chatContainerEl.style.paddingBottom = '70px';
         }
         
         if (chatContainerEl) {
