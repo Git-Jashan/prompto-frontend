@@ -74,31 +74,34 @@ async function sendMessage() {
       }
       return;
     }
-    
-    addMessageToUI(data.reply, "ai");
-    
-if (data.isFinalGeneration && data.reply.includes('|||SPLIT_HERE|||')) {
-  const parts = data.reply.split('|||SPLIT_HERE|||');
-  
-  if (parts[0].trim()) {
-    addMessageToUI(parts[0].trim(), "ai");
-  }
-  
-  if (parts[1].trim()) {
-    addMessageToUI(parts[1].trim(), "ai");
-  }
-} else {
-  addMessageToUI(data.reply, "ai");
-}
 
-if (data.isFinalGeneration) {
-  bringAction();
-  
-  if (data.remainingPrompts !== undefined) {
-    const infoMsg = `✓ Prompt generated! You have ${data.remainingPrompts} prompts remaining today.`;
-    addMessageToUI(infoMsg, "info");
-  }
-}
+    // --- FIX STARTS HERE: Logic to display message and handle split ---
+    if (data.isFinalGeneration && data.reply.includes('|||SPLIT_HERE|||')) {
+      const parts = data.reply.split('|||SPLIT_HERE|||');
+      
+      // Part 1: Intro (Normal AI message)
+      if (parts[0].trim()) {
+        addMessageToUI(parts[0].trim(), "ai");
+      }
+      
+      // Part 2: The Prompt (Black Background)
+      if (parts[1].trim()) {
+        addMessageToUI(parts[1].trim(), "finalPrompt");
+      }
+    } else {
+      // Normal conversation message
+      addMessageToUI(data.reply, "ai");
+    }
+    // --- FIX ENDS HERE ---
+
+    if (data.isFinalGeneration) {
+      bringAction();
+      
+      if (data.remainingPrompts !== undefined) {
+        const infoMsg = `✓ Prompt generated! You have ${data.remainingPrompts} prompts remaining today.`;
+        addMessageToUI(infoMsg, "info");
+      }
+    }
     
   } catch (error) {
     console.error("Error:", error);
@@ -117,6 +120,8 @@ function addMessageToUI(text, sender) {
     msgDiv.classList.add("userMessage");
   } else if (sender === "ai") {
     msgDiv.classList.add("aiMessage");
+  } else if (sender === "finalPrompt") {
+    msgDiv.classList.add("aiMessage", "black-bg");
   } else if (sender === "error") {
     msgDiv.classList.add("aiMessage", "error");
     msgDiv.style.color = "#ff0000ff";
@@ -384,33 +389,59 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
   const userTextInput = document.querySelector('.userText');
   
   const initialHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  let isKeyboardOpen = false;
   
   function adjustForKeyboard() {
     if (window.visualViewport) {
       const vpHeight = window.visualViewport.height;
+      const heightDiff = initialHeight - vpHeight;
       
-      if (vpHeight < initialHeight * 0.9) {
-        dashboardContainer.style.height = `${vpHeight}px`;
+      const shouldAdjust = (document.activeElement === userTextInput && heightDiff > 150) || 
+                          (isKeyboardOpen && heightDiff > 150);
+      
+      if (shouldAdjust) {
+        isKeyboardOpen = true;
+      
+        document.body.style.position = 'fixed';
+        document.body.style.top = '0';
+        document.body.style.left = '0';
+        document.body.style.right = '0';
+        document.body.style.width = '100%';
         document.body.style.height = `${vpHeight}px`;
-      
-        if (document.activeElement === userTextInput) {
-          footer.classList.add("hidden");
-        }
-      } else {
+        document.body.style.overflow = 'hidden';
+        
+        dashboardContainer.style.height = `${vpHeight}px`;
+        dashboardContainer.style.maxHeight = `${vpHeight}px`;
+        
+        footer.classList.add('hidden');
+        
+        window.scrollTo(0, 0);
+      } else if (isKeyboardOpen && heightDiff <= 100) {
         resetLayout();
       }
     }
   }
   
   function resetLayout() {
+    isKeyboardOpen = false;
+    
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.height = '';
+    document.body.style.overflow = '';
+    
     dashboardContainer.style.height = '100dvh';
-    document.body.style.height = '100dvh';
-    footer.classList.remove("hidden");
+    dashboardContainer.style.maxHeight = '';
+    
+    footer.classList.remove('hidden');
   }
   
   if (userTextInput && footer && dashboardContainer) {
     userTextInput.addEventListener('focus', () => {
-      adjustForKeyboard();
+      setTimeout(adjustForKeyboard, 100);
+      setTimeout(adjustForKeyboard, 300);
     });
     
     userTextInput.addEventListener('blur', () => {
@@ -422,20 +453,9 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
     }
     
     document.body.addEventListener('touchmove', (e) => {
-      if (document.activeElement === userTextInput) {
+      if (isKeyboardOpen) {
         e.preventDefault();
       }
     }, { passive: false });
   }
-}
-if (modal && typer) {
-  const observer = new MutationObserver(() => {
-    if (modal.style.display === "flex") {
-      typer.style.visibility = "hidden";
-    } else {
-      typer.style.visibility = "visible";
-    }
-  });
-  
-  observer.observe(modal, { attributes: true, attributeFilter: ["style"] });
 }
