@@ -455,6 +455,12 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
     document.body.addEventListener('touchmove', (e) => {
       if (isKeyboardOpen) {
         e.preventDefault();
+
+          const chatContainerEl = document.querySelector('.chatContainer');
+    if (chatContainerEl && chatContainerEl.contains(e.target)) {
+      return; // Don't prevent - allow chat to scroll
+    }
+    
       }
     }, { passive: false });
   }
