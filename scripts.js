@@ -459,3 +459,15 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
     }, { passive: false });
   }
 }
+
+if (modal && typer) {
+  const observer = new MutationObserver(() => {
+    if (modal.style.display === "flex") {
+      typer.style.visibility = "hidden";
+    } else {
+      typer.style.visibility = "visible";
+    }
+  });
+  
+  observer.observe(modal, { attributes: true, attributeFilter: ["style"] });
+}
