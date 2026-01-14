@@ -74,19 +74,31 @@ async function sendMessage() {
       }
       return;
     }
+    
+    addMessageToUI(data.reply, "ai");
+    
+if (data.isFinalGeneration && data.reply.includes('|||SPLIT_HERE|||')) {
+  const parts = data.reply.split('|||SPLIT_HERE|||');
+  
+  if (parts[0].trim()) {
+    addMessageToUI(parts[0].trim(), "ai");
+  }
+  
+  if (parts[1].trim()) {
+    addMessageToUI(parts[1].trim(), "ai");
+  }
+} else {
+  addMessageToUI(data.reply, "ai");
+}
 
-    if (data.recommendedAi) {
-      addMessageToUI(data.recommendedAi, "info"); 
-    }
-
-    if (data.isFinalGeneration) {
-      bringAction();
-      
-      if (data.remainingPrompts !== undefined) {
-        const infoMsg = `✓ Prompt generated! You have ${data.remainingPrompts} prompts remaining today.`;
-        addMessageToUI(infoMsg, "info");
-      }
-    }
+if (data.isFinalGeneration) {
+  bringAction();
+  
+  if (data.remainingPrompts !== undefined) {
+    const infoMsg = `✓ Prompt generated! You have ${data.remainingPrompts} prompts remaining today.`;
+    addMessageToUI(infoMsg, "info");
+  }
+}
     
   } catch (error) {
     console.error("Error:", error);
@@ -115,10 +127,7 @@ function addMessageToUI(text, sender) {
   
   msgDiv.textContent = text;
   chatContainer.appendChild(msgDiv);
-  
-  setTimeout(() => {
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-}, 100);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
 function bringAction() {
