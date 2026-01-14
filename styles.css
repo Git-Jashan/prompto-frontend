@@ -895,6 +895,9 @@ body {
     padding: 10px 8px;
     font-size: 14px;
     gap: 10px;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    position: relative;
   }
   
   .typer {
