@@ -32,11 +32,12 @@
 }
 body {
     overflow: hidden; 
+    height: 100dvh;
 }
 .dashboard-container {
   background-color: #F5F5F7;
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -808,18 +809,35 @@ option {
         width: 85%;
     }
 }
-
 /* RESPONSIVE DESIGN - MOBILE */
 @media (max-width: 480px) {
-  body {
+ 
+.dashboard-container {
+    height: 100dvh; 
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    transition: height 0.3s ease;
+}
+
+body {
     height: 100dvh;
     overflow: hidden;
-    padding-bottom: 30px;
-    position: relative;
+    margin: 0;
+    padding: 0;
     width: 100%;
-  }
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    transition: height 0.3s ease; /* Smooth resize */
+}
+
   .top {
+    flex-shrink: 0;
     padding: var(--space-sm) var(--space-xs);
+    z-index: 10;
   }
   
   .topLeft {
@@ -852,57 +870,66 @@ option {
   }
   
   #tagline {
+    flex-shrink: 1;
     font-size: var(--font-lg);
     padding: var(--space-md);
+    min-height: 0;
   }
- 
-  .dashboard-container {
-    height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; /* FIX: Container doesn't scroll */
+
+  #tagline.hidden {
+    display: none;
+    height: 0;
+    padding: 0;
+    margin: 0;
   }
-  
+
+  .chatContainer {
+    display: none;
+  }
+
   .chatContainer.active {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     padding: 10px 8px;
     font-size: 14px;
     gap: 10px;
-    padding-bottom: 100px;
-    margin-bottom: 0;
-    flex: 1;
-    overflow-y: auto; /* FIX: ONLY chatContainer scrolls */
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
   }
   
   .typer {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 30px;
+    position: relative;
     width: 100%;
     margin: 0;
     padding: 12px;
-    border-radius: 30px;
+    border-radius: 50px;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 100;
     background-color: var(--color-bg-white);
-    transition: bottom 0.3s ease; /* FIX: Smooth movement */
+    flex-shrink: 0;
+    z-index: 10;
+  }
+
+  .typer.hidden {
+    display: none;
   }
   
   .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    display: block;
+    position: relative;
+    width: 100%;
     height: 30px;
+    min-height: 30px;
     padding: 7px;
-    z-index: 99;
     background-color: var(--color-bg-light);
-    transition: none; /* FIX: No animation on footer */
+    flex-shrink: 0;
+    z-index: 5;
+    transition: opacity 0.2s;
   }
   
-
+  .footer.hidden{
+    display: none;
+  }
   .userMessage, .aiMessage, .thinking {
     max-width: 90%;
     padding: 10px 14px;
@@ -911,7 +938,7 @@ option {
     border-radius: 12px;
   }
   
-  .sendBtn,.voiceText {
+  .sendBtn, .voiceText {
     height: 38px;
     width: 38px;
     font-size: var(--font-xl);
@@ -932,26 +959,29 @@ option {
     padding: 11px 6px 0px 2px;
   }
   
-  .categoryModel{
+  .categoryModel {
     font-size: 15px;
   }
 
+  .actionBar {
+    display: none;
+  }
+
   .actionBar.active {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 30px;
+    position: relative;
     width: 100%;
     margin: 0;
     padding: 12px;
     gap: 12px;
-    border-radius: 0;
+    border-radius: 30px 30px 0 0;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
     flex-wrap: nowrap;
     justify-content: space-around;
-    z-index: 100;
     background-color: var(--color-bg-white);
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    z-index: 10;
   }
   
   .copyBtn, .saveBtn, .newChat {
@@ -1013,12 +1043,6 @@ option {
     margin: 0 var(--space-sm);
   }
   
-  .dashboard-container {
-    height: 100dvh;
-    display: flex;
-    flex-direction: column;
-  }
-  
   .prompt-card {
     padding: 15px;
     margin-bottom: 12px;
@@ -1039,19 +1063,19 @@ option {
     max-height: 80px;
   }
 
-  .promptsGrid{
+  .promptsGrid {
     display: grid;
-    grid-template-columns:  repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 8px;
     width: 98%;
     overflow-x: hidden;
   }
 
-  #promptsList{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  width: 98%;
+  #promptsList {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    width: 98%;
   }
 
   .footer-content {
@@ -1080,13 +1104,13 @@ option {
   .terms-text p, .terms-text li {
     font-size: 14px;
   }
-  .topBar{
-      width: 100%;
-      padding: 6px;
-  }
   
+  .topBar {
+    width: 100%;
+    padding: 6px;
+  }
 }
-/* Very small phones */
+
 @media (max-width: 360px) {
     body{
         height: 100dvh;

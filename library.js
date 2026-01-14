@@ -111,7 +111,7 @@ if (confirmBtn) {
         author: authorName,
         userEmail: user.email,
         likes: 0,
-        likedBy: [] // FIX: Add likedBy array from the start
+        likedBy: [] 
       });
       
       console.log("Prompt uploaded successfully!");
@@ -131,7 +131,6 @@ if (confirmBtn) {
   });
 }
 
-// FIX #2: Complete rewrite of loadExplorePrompts
 async function loadExplorePrompts(categoryFilter = 'All', searchTerm = '') {
   if (!promptsGrid) return;
   
@@ -181,7 +180,6 @@ async function loadExplorePrompts(categoryFilter = 'All', searchTerm = '') {
       return;
     }
 
-    // FIX: Define currentUser ONCE before loop
     const currentUser = window.auth?.currentUser;
 
     prompts.forEach((data) => {
@@ -190,7 +188,6 @@ async function loadExplorePrompts(categoryFilter = 'All', searchTerm = '') {
         dateStr = data.createdAt.toDate().toLocaleDateString();
       }
 
-      // FIX: Initialize likedBy array if it doesn't exist
       if (!data.likedBy) {
         data.likedBy = [];
       }
@@ -198,7 +195,6 @@ async function loadExplorePrompts(categoryFilter = 'All', searchTerm = '') {
       const card = document.createElement('div');
       card.className = 'prompt-card';
       
-      // Keep your exact HTML structure with SVG
       card.innerHTML = `
         <div class="prompt-header">
           <h3>${escapeHtml(data.title)}</h3>
@@ -222,32 +218,26 @@ async function loadExplorePrompts(categoryFilter = 'All', searchTerm = '') {
         </div>
       `;
       
-      // Copy button handler
       const copyBtn = card.querySelector('.copy-btn');
       copyBtn.addEventListener('click', () => {
         navigator.clipboard.writeText(data.content);
         alert("Prompt copied!");
       });
 
-      // FIX: Clean like button handler - NO DUPLICATES
       const likeWrapper = card.querySelector('.like-wrapper');
       const likeSvgPath = likeWrapper.querySelector('svg path');
       const likeCountSpan = likeWrapper.querySelector('.like-count');
-      
-      // Check if current user has liked this prompt
+    
       let liked = currentUser ? data.likedBy.includes(currentUser.uid) : false;
       let currentLikes = data.likes || 0;
 
-      // Set initial heart state
       if (liked) {
-        likeSvgPath.setAttribute('fill', 'white'); // Filled heart
+        likeSvgPath.setAttribute('fill', 'white');
       } else {
-        likeSvgPath.setAttribute('fill', 'none'); // Outline heart
+        likeSvgPath.setAttribute('fill', 'none'); 
       }
 
-      // Like button click handler
       likeWrapper.addEventListener('click', async () => {
-        // Check login
         if (!currentUser) {
           alert("Please log in to like prompts!");
           return;
@@ -257,26 +247,23 @@ async function loadExplorePrompts(categoryFilter = 'All', searchTerm = '') {
 
         try {
           if (!liked) {
-            // Like the prompt
             await updateDoc(promptRef, {
               likes: increment(1),
               likedBy: arrayUnion(currentUser.uid)
             });
             currentLikes++;
             liked = true;
-            likeSvgPath.setAttribute('fill', 'white'); // Fill heart
+            likeSvgPath.setAttribute('fill', 'white');
           } else {
-            // Unlike the prompt
             await updateDoc(promptRef, {
               likes: increment(-1),
               likedBy: arrayRemove(currentUser.uid)
             });
             currentLikes--;
             liked = false;
-            likeSvgPath.setAttribute('fill', 'none'); // Outline heart
+            likeSvgPath.setAttribute('fill', 'none');
           }
 
-          // Update count display
           likeCountSpan.textContent = currentLikes;
           
         } catch (err) {

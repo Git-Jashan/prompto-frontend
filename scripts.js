@@ -74,9 +74,11 @@ async function sendMessage() {
       }
       return;
     }
-    
-    addMessageToUI(data.reply, "ai");
-    
+
+    if (data.recommendedAi) {
+      addMessageToUI(data.recommendedAi, "info"); 
+    }
+
     if (data.isFinalGeneration) {
       bringAction();
       
@@ -113,7 +115,10 @@ function addMessageToUI(text, sender) {
   
   msgDiv.textContent = text;
   chatContainer.appendChild(msgDiv);
-  chatContainer.scrollTop = chatContainer.scrollHeight;
+  
+  setTimeout(() => {
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+}, 100);
 }
 
 function bringAction() {
@@ -364,62 +369,64 @@ function resizeSelect(el) {
 resizeSelect(categoryModelSelect);
 categoryModelSelect.addEventListener("change", () => resizeSelect(categoryModelSelect));
  
-// ========================================
-// MOBILE KEYBOARD FIX - ONE-TIME SOLUTION
-// ========================================
-
-// Detect mobile
-// ========================================
-// MOBILE KEYBOARD FIX - CORRECTED
-// ========================================
-
-const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-if (isMobile) {
-  let keyboardHeight = 0;
+if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+  const footer = document.querySelector('.footer');
+  const dashboardContainer = document.querySelector('.dashboard-container');
+  const userTextInput = document.querySelector('.userText');
   
-  const handleKeyboard = () => {
-    if (!window.visualViewport) return;
-    
-    const viewportHeight = window.visualViewport.height;
-    const windowHeight = window.innerHeight;
-    
-    // Keyboard is open if viewport is smaller
-    keyboardHeight = windowHeight - viewportHeight;
-    
-    const typer = document.querySelector('.typer');
-    const footer = document.querySelector('.footer');
-    
-    if (keyboardHeight > 100) {
-      // Keyboard OPEN
-      if (typer) {
-        typer.style.bottom = `${keyboardHeight + 5}px`; // 10px above keyboard
-      }
-      if (footer) {
-        footer.style.display = 'none'; // Hide footer completely
-      }
-    } else {
-      // Keyboard CLOSED
-      if (typer) {
-        typer.style.bottom = '30px'; // Back to original position
-      }
-      if (footer) {
-        footer.style.display = 'block'; // Show footer again
+  const initialHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  
+  function adjustForKeyboard() {
+    if (window.visualViewport) {
+      const vpHeight = window.visualViewport.height;
+      
+      if (vpHeight < initialHeight * 0.9) {
+        dashboardContainer.style.height = `${vpHeight}px`;
+        document.body.style.height = `${vpHeight}px`;
+      
+        if (document.activeElement === userTextInput) {
+          footer.classList.add("hidden");
+        }
+      } else {
+        resetLayout();
       }
     }
-  };
-  
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', handleKeyboard);
   }
   
-  // Prevent whole page scroll, only allow chat scroll
-  userText.addEventListener('focus', () => {
-    document.body.style.position = 'fixed';
-    document.body.style.width = '100%';
+  function resetLayout() {
+    dashboardContainer.style.height = '100dvh';
+    document.body.style.height = '100dvh';
+    footer.classList.remove("hidden");
+  }
+  
+  if (userTextInput && footer && dashboardContainer) {
+    userTextInput.addEventListener('focus', () => {
+      adjustForKeyboard();
+    });
+    
+    userTextInput.addEventListener('blur', () => {
+      setTimeout(resetLayout, 100);
+    });
+    
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', adjustForKeyboard);
+    }
+    
+    document.body.addEventListener('touchmove', (e) => {
+      if (document.activeElement === userTextInput) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+  }
+}
+if (modal && typer) {
+  const observer = new MutationObserver(() => {
+    if (modal.style.display === "flex") {
+      typer.style.visibility = "hidden";
+    } else {
+      typer.style.visibility = "visible";
+    }
   });
   
-  userText.addEventListener('blur', () => {
-    document.body.style.position = 'static';
-  });
+  observer.observe(modal, { attributes: true, attributeFilter: ["style"] });
 }
