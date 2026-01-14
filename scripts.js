@@ -382,11 +382,11 @@ function resizeSelect(el) {
 
 resizeSelect(categoryModelSelect);
 categoryModelSelect.addEventListener("change", () => resizeSelect(categoryModelSelect));
- 
 if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
   const footer = document.querySelector('.footer');
   const dashboardContainer = document.querySelector('.dashboard-container');
   const userTextInput = document.querySelector('.userText');
+  const chatContainerEl = document.querySelector('.chatContainer');
   
   const initialHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
   let isKeyboardOpen = false;
@@ -401,21 +401,22 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
       
       if (shouldAdjust) {
         isKeyboardOpen = true;
-      
-        document.body.style.position = 'fixed';
-        document.body.style.top = '0';
-        document.body.style.left = '0';
-        document.body.style.right = '0';
-        document.body.style.width = '100%';
-        document.body.style.height = `${vpHeight}px`;
-        document.body.style.overflow = 'hidden';
         
         dashboardContainer.style.height = `${vpHeight}px`;
         dashboardContainer.style.maxHeight = `${vpHeight}px`;
         
         footer.classList.add('hidden');
         
-        window.scrollTo(0, 0);
+        if (chatContainerEl && chatContainerEl.classList.contains('active')) {
+          chatContainerEl.style.paddingBottom = '80px';
+        }
+        
+        if (chatContainerEl) {
+          setTimeout(() => {
+            chatContainerEl.scrollTop = chatContainerEl.scrollHeight;
+          }, 100);
+        }
+        
       } else if (isKeyboardOpen && heightDiff <= 100) {
         resetLayout();
       }
@@ -425,17 +426,14 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
   function resetLayout() {
     isKeyboardOpen = false;
     
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.left = '';
-    document.body.style.right = '';
-    document.body.style.height = '';
-    document.body.style.overflow = '';
-    
     dashboardContainer.style.height = '100dvh';
     dashboardContainer.style.maxHeight = '';
     
     footer.classList.remove('hidden');
+    
+    if (chatContainerEl && chatContainerEl.classList.contains('active')) {
+      chatContainerEl.style.paddingBottom = '';
+    }
   }
   
   if (userTextInput && footer && dashboardContainer) {
@@ -451,21 +449,8 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
     if (window.visualViewport) {
       window.visualViewport.addEventListener('resize', adjustForKeyboard);
     }
-    
-    document.body.addEventListener('touchmove', (e) => {
-      if (isKeyboardOpen) {
-        e.preventDefault();
-
-          const chatContainerEl = document.querySelector('.chatContainer');
-    if (chatContainerEl && chatContainerEl.contains(e.target)) {
-      return; // Don't prevent - allow chat to scroll
-    }
-    
-      }
-    }, { passive: false });
   }
 }
-
 if (modal && typer) {
   const observer = new MutationObserver(() => {
     if (modal.style.display === "flex") {
