@@ -829,7 +829,7 @@ option {
     overflow: hidden;
     position: relative;
 }
-/* Inside @media (max-width: 480px) */
+
 body {
     height: 100dvh;
     overflow: hidden;
