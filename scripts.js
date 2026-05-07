@@ -75,25 +75,20 @@ async function sendMessage() {
       return;
     }
 
-    // --- FIX STARTS HERE: Logic to display message and handle split ---
     if (data.isFinalGeneration && data.reply.includes('|||SPLIT_HERE|||')) {
       const parts = data.reply.split('|||SPLIT_HERE|||');
       
-      // Part 1: Intro (Normal AI message)
       if (parts[0].trim()) {
         addMessageToUI(parts[0].trim(), "ai");
       }
       
-      // Part 2: The Prompt (Black Background)
       if (parts[1].trim()) {
         addMessageToUI(parts[1].trim(), "finalPrompt");
       }
     } else {
-      // Normal conversation message
       addMessageToUI(data.reply, "ai");
     }
-    // --- FIX ENDS HERE ---
-
+    
     if (data.isFinalGeneration) {
       bringAction();
       

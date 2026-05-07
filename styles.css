@@ -714,7 +714,6 @@ option {
     text-align: center;
 }
 
-/* Terms/Privacy Modal */
 .terms-modal {
     width: 700px;
     max-height: 80vh;
@@ -819,7 +818,7 @@ option {
         width: 85%;
     }
 }
-/* RESPONSIVE DESIGN - MOBILE */
+
 @media (max-width: 480px) {
  
 .dashboard-container {
@@ -1177,9 +1176,6 @@ body {
         padding: 5px;
     }
 }
-/* ========================================
-   ANIMATIONS
-   ======================================== */
 
 @keyframes fadeIn {
   from {
